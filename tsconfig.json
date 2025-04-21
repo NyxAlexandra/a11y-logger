@@ -1,0 +1,9 @@
+{
+  "include": ["./src/**/*.ts"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "CommonJS",
+    "noImplicitAny": true,
+  },
+}

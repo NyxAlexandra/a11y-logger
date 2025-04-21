@@ -1,0 +1,19 @@
+{
+  "name": "A11y Logger",
+  "description": "Accessibility violation logger",
+  "version": "0.1.0",
+  "manifest_version": 3,
+
+  "permissions": ["storage", "unlimitedStorage"],
+  "host_permissions": ["*://*/*"],
+
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "js": ["foreground.js"],
+      "matches": ["*://*/*"]
+    }
+  ]
+}
