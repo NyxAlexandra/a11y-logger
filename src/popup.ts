@@ -1,33 +1,75 @@
-import { scans } from "./storage";
+import download from "./download";
+import { Scan } from "./scan";
+import { Resource } from "./resource";
+import expect from "./expect";
+import IconButton from "./icon-button";
 
-const downloadButton = document.getElementById("download");
-const clearButton = document.getElementById("clear");
+import PLAY from "@material-design-icons/svg/round/play_arrow.svg?url";
+import PAUSE from "@material-design-icons/svg/round/pause.svg?url";
+import DOWNLOAD from "@material-design-icons/svg/round/download_for_offline.svg?url";
+import DOWNLOADING from "@material-design-icons/svg/round/downloading.svg?url";
+import DELETE from "@material-design-icons/svg/round/delete.svg?url";
 
-function setDownloadEnabled(enabled: boolean) {
-  if (enabled) downloadButton.removeAttribute("disabled");
-  else downloadButton.setAttribute("disabled", "");
-}
+const FILE_NAME = "a11y-log.json";
 
-scans.get().then((scans) => {
-  downloadButton.onclick = () => {
-    const content = new Blob([JSON.stringify(scans)], { type: "text/plain" });
-    const link = document.createElement("a");
-    const url = URL.createObjectURL(content);
+const scans = new Resource<Scan[]>("scans", []);
+const isLogging = new Resource("isLogging", false);
 
-    downloadButton.setAttribute("href", url);
+// UI
 
-    link.download = "a11y-log.json";
-    link.href = url;
+const popup = document.createElement("div");
 
-    link.click();
-    URL.revokeObjectURL(url);
+const heading = document.createElement("h1");
+const toolbar = document.createElement("div");
 
-    downloadButton.removeAttribute("href");
-  };
+const toggleLogging = new IconButton();
+
+const spacer = document.createElement("div");
+
+const downloadLogs = new IconButton();
+const clearLogs = new IconButton();
+
+document.body.append(popup);
+
+popup.append(heading, toolbar);
+toolbar.append(
+  toggleLogging.button,
+  spacer,
+  downloadLogs.button,
+  clearLogs.button,
+);
+
+popup.id = "popup";
+
+heading.innerText = "A11y Logger";
+toolbar.id = "toolbar";
+
+// Triggers once when called
+isLogging.observe((isLogging) => {
+  const src = isLogging ? PAUSE : PLAY;
+
+  toggleLogging.icon.src = src;
 });
+toggleLogging.button.onclick = () => {
+  isLogging.update((x) => !x).catch(expect("failed to change `isLogging`"));
+};
 
-clearButton.onclick = () => {
-  setDownloadEnabled(false);
+spacer.className = "spacer";
 
-  scans.clear().finally(() => setDownloadEnabled(true));
+downloadLogs.icon.src = DOWNLOAD;
+downloadLogs.button.onclick = () => {
+  downloadLogs.icon.src = DOWNLOADING;
+
+  scans
+    .get()
+    .then((scans) => {
+      download(FILE_NAME, scans);
+    })
+    .catch(expect("failed to retreive `scans` to download"))
+    .finally(() => (downloadLogs.icon.src = DOWNLOAD));
+};
+
+clearLogs.icon.src = DELETE;
+clearLogs.button.onclick = () => {
+  scans.set([]).catch(expect("failed to clear `scans`"));
 };

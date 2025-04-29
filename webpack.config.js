@@ -3,13 +3,13 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: {
-    foreground: "./src/foreground.ts",
     popup: "./src/popup.ts",
+    foreground: "./src/foreground.ts",
   },
   output: {
     filename: "[name].js",
-    sourceMapFilename: "[name].js.map",
     path: path.resolve(__dirname, "build"),
+    assetModuleFilename: "assets/[name][ext]",
     clean: true,
   },
   module: {
@@ -19,16 +19,25 @@ module.exports = {
         use: "ts-loader",
         exclude: /node_modules/,
       },
+      {
+        test: /\.svg$/,
+        type: "asset/resource",
+        resourceQuery: /url/,
+      },
+      {
+        test: /\.css$/i,
+        use: ["css-loader"],
+      },
     ],
   },
   resolve: {
-    extensions: [".ts"],
-    modules: ["./src", "./node_modules"],
+    extensions: [".ts", ".css"],
+    modules: ["./src", "./static", "./node_modules"],
   },
   devtool: false,
   plugins: [
     new CopyPlugin({
-      patterns: [{ from: "./dist" }],
+      patterns: [{ from: "./static/**/*", to: "[name][ext]" }],
     }),
   ],
 };
