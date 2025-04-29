@@ -2,7 +2,10 @@
 
 ## Installation
  
-- Download `a11y-logger.zip` from the releases page.
+- Download `a11y-logger.zip` from the [releases page](https://github.com/NyxAlexandra/a11y-logger/releases/latest).
+
+  ![An example release page](./assets/github-releases-page.png)
+
 - Follow the instructions for your particular browser.
 
 ### Chrome
