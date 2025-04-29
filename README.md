@@ -18,6 +18,10 @@ Navigate to `chrome://extensions`.
 
 ![`chrome://extensions` page](./assets/chrome-extensions-page.png)
 
+Ensure "Developer mode" is enabled. After doing so, restart the browser.
+
+![Chrome Developer Mode toggle](./assets/chrome-dev-mode.png)
+
 Drag and drop the `a11y-logger.zip` file into the main area.
 
 ![Dragging-and-dropping the extension](./assets/chrome-dnd.png)
