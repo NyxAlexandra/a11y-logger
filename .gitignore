@@ -1,3 +1,7 @@
 .DS_Store
-/build
 /node_modules
+
+# Output extension file
+/ally-logger*.zip
+# Compiled extension
+/build

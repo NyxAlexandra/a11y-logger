@@ -2,13 +2,18 @@
   "name": "A11y Logger",
   "description": "Accessibility violation logger",
   "version": "0.1.0",
+  "homepage_url": "https://github.com/NyxAlexandra/a11y-logger",
   "manifest_version": 3,
-
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{fef49bbe-0107-4f76-a36a-0b95436535a0}"
+    }
+  },
   "permissions": ["storage", "unlimitedStorage"],
   "host_permissions": ["*://*/*"],
 
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "index.html"
   },
   "content_scripts": [
     {
