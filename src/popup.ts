@@ -1,5 +1,5 @@
 import download from "./download";
-import { Scan } from "./scan";
+import { Log, Scan } from "./log";
 import { Resource } from "./resource";
 import expect from "./expect";
 import IconButton from "./icon-button";
@@ -63,7 +63,9 @@ downloadLogs.button.onclick = () => {
   scans
     .get()
     .then((scans) => {
-      download(FILE_NAME, scans);
+      const log = new Log(scans);
+
+      download(FILE_NAME, log);
     })
     .catch(expect("failed to retreive `scans` to download"))
     .finally(() => (downloadLogs.icon.src = DOWNLOAD));

@@ -1,5 +1,5 @@
 import axe from "axe-core";
-import { Scan } from "./scan";
+import { Scan } from "./log";
 import { Resource } from "./resource";
 import expect from "./expect";
 
@@ -9,8 +9,6 @@ const isLogging = new Resource("isLogging", false);
 // TODO: Improve performance on complex pages
 isLogging.get().then((isLogging) => {
   if (isLogging) {
-    axe.configure({ noHtml: true });
-
     return axe
       .run({
         frameWaitTime: 100,
