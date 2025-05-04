@@ -7,13 +7,19 @@ import {
 
 /** A log of scans. */
 export class Log {
+  /** The version of the log file. */
+  private version: Version;
   /** Collected scans. */
-  scans: Scan[];
+  private scans: Scan[];
 
   constructor(scans: Scan[]) {
+    this.version = 2;
     this.scans = scans;
   }
 }
+
+/** The version of the log file. */
+type Version = 2;
 
 /** The results of a scan of a website. */
 export class Scan {
